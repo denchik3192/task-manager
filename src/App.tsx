@@ -2,52 +2,52 @@ import * as React from "react";
 import {
   ChakraProvider,
   Box,
-  Text,
-  Link,
-  VStack,
-  Code,
   Grid,
   theme,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  StatGroup,
+  GridItem,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo";
 import MainTable from "./components/MainTable/MainTable";
+import Header from "./components/Header/Header";
+import Main from "./pages/Main";
+import Footer from "./components/Footer/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <StatGroup>
-            <Stat>
-              <StatLabel>Sent</StatLabel>
-              <StatNumber>345,670</StatNumber>
-              <StatHelpText>
-                <StatArrow type="increase" />
-                23.36%
-              </StatHelpText>
-            </Stat>
+    <BrowserRouter>
+    <Grid
+      minH="100vh"
+      minW={"100vw"}
+      templateAreas={`"header"
+                  "main"
+                  "footer"`}
+      gridTemplateRows={"1fr 10fr 1fr"}
+      gridTemplateColumns={"1fr"}
+      h="200px"
+      gap="0"
+    >
+      <GridItem pl="2" area={"header"}>
+        <Header />
+      </GridItem>
+      <GridItem pl="2" borderTop={"1px solid #fff"} area={"main"}>
+      <Routes>
+      <Route path="/" element={<Main />}/>
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+      </GridItem>
+      <GridItem pl="2" area={"footer"}>
+        <Footer />
+      </GridItem>
+    </Grid>
+    <Box textAlign="center" fontSize="xl"></Box>
 
-            <Stat>
-              <StatLabel>Clicked</StatLabel>
-              <StatNumber>45</StatNumber>
-              <StatHelpText>
-                <StatArrow type="decrease" />
-                9.05%
-              </StatHelpText>
-            </Stat>
-          </StatGroup>
-          <MainTable />
-          {/* <Logo h="40vmin" pointerEvents="none" /> */}
-        </VStack>
-      </Grid>
-    </Box>
+    
+    
+    
+    </BrowserRouter>
+   
   </ChakraProvider>
 );
